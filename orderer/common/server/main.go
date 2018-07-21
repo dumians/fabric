@@ -39,6 +39,7 @@ import (
 	"github.com/hyperledger/fabric/orderer/common/performance"
 	"github.com/op/go-logging"
 	"gopkg.in/alecthomas/kingpin.v2"
+	"github.com/hyperledger/fabric/orderer/consensus/hashgraph"
 )
 
 const pkgLogID = "orderer/common/server"
@@ -255,6 +256,7 @@ func initializeMultichannelRegistrar(conf *localconfig.TopLevel, signer crypto.L
 
 	consenters := make(map[string]consensus.Consenter)
 	consenters["solo"] = solo.New()
+	consenters["hashgraph"] = hashgraph.New()
 	consenters["kafka"] = kafka.New(conf.Kafka)
 
 	return multichannel.NewRegistrar(lf, consenters, signer, callbacks...)
